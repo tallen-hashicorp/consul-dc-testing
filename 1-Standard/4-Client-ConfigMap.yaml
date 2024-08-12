@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: consul-client-config-dc1
+  namespace: consul-dc1
   labels:
     app: consul-client
 data:

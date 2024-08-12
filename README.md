@@ -19,8 +19,21 @@ kubectl apply -f 1-Standard
 ```
 
 ### To Access
+
+Consul Server
 ```bash
 kubectl -n consul-dc1 port-forward services/consul 8500:8500
+```
+
+Counting Service
+```bash
+kubectl -n consul-dc1 port-forward services/counting-service 9001:9001
+```
+
+### To Sacle up and down
+```bash
+kubectl -n consul-dc1 scale deployment consul-client --replicas 10
+kubectl -n consul-dc1 scale deployment consul-client --replicas 3
 ```
 
 ## To Cleanup

@@ -2,10 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: consul-client
+  namespace: consul-dc1
   labels:
     app: consul-client
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: consul-client
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
       - name: consul
-        image: consul:1.15.4
+        image: hashicorp/consul:1.19.1
         command: ["consul", "agent", "-config-file=/consul/config/consul.hcl"]
         ports:
         - containerPort: 8500
@@ -26,14 +27,8 @@ spec:
           protocol: UDP
         - containerPort: 8301
           name: serflan
-        - containerPort: 8301
-          name: serflan-tcp
-          protocol: TCP
         - containerPort: 8302
           name: serfwan
-        - containerPort: 8302
-          name: serfwan-tcp
-          protocol: TCP
         - containerPort: 8300
           name: server
         volumeMounts:
@@ -42,7 +37,7 @@ spec:
         - name: consul-config
           mountPath: /consul/config
       - name: counting-service
-        image: hashicorp/counting-service
+        image: hashicorp/counting-service:0.0.2
         ports:
         - containerPort: 9001
           name: http
@@ -63,4 +58,19 @@ spec:
         emptyDir: {}
       - name: consul-config
         configMap:
-          name: consul-client-config
+          name: consul-client-config-dc1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: counting-service
+  namespace: consul-dc1
+  labels:
+    app: consul-client
+spec:
+  ports:
+  - port: 9001
+    name: http
+  clusterIP: None
+  selector:
+    app: consul-client
