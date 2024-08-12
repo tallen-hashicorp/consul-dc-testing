@@ -1,2 +1,14 @@
-# consul-dc-testing
-Testing some DC topography for Consul
+# Consul DC Testing
+
+This repository is dedicated to testing various datacenter (DC) topographies using Consul. The goal is to explore different network configurations and their impact on service communication across multiple datacenters.
+
+## OSS Standard Topography
+
+In this topography, we have four datacenters:
+
+- **DC1, DC2, DC3:** Each of these datacenters contains active Consul servers.
+- **DC4:** This is an additional datacenter with no servers, used for further testing scenarios.
+
+All datacenters are fully networked, meaning they can freely communicate with each other. This configuration serves as the baseline for our testing. Future tests will involve introducing network policies to enforce segmentation and test how network isolation affects communication between services.
+
+![Standard Diagram](./docs/standard.png)
