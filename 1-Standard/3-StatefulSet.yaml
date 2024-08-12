@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: consul
+  labels:
+    app: consul
+spec:
+  serviceName: "consul"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: consul
+  template:
+    metadata:
+      labels:
+        app: consul
+    spec:
+      containers:
+      - name: consul
+        image: consul:1.15.4
+        command: ["consul", "agent", "-config-file=/consul/config/consul.hcl"]
+        ports:
+        - containerPort: 8500
+          name: http
+        - containerPort: 8600
+          name: dns
+          protocol: UDP
+        - containerPort: 8301
+          name: serflan
+        - containerPort: 8301
+          name: serflan-tcp
+          protocol: TCP
+        - containerPort: 8302
+          name: serfwan
+        - containerPort: 8302
+          name: serfwan-tcp
+          protocol: TCP
+        - containerPort: 8300
+          name: server
+        volumeMounts:
+        - name: consul-data
+          mountPath: /consul/data
+        - name: consul-config
+          mountPath: /consul/config
+          subPath: consul.hcl
+        readinessProbe:
+          httpGet:
+            path: /v1/status/leader
+            port: 8500
+          initialDelaySeconds: 5
+          periodSeconds: 10
+      terminationGracePeriodSeconds: 10
+  volumeClaimTemplates: []
+  volumes:
+  - name: consul-data
+    hostPath:
+      path: /mnt/data/consul
+      type: DirectoryOrCreate
+  - name: consul-config
+    configMap:
+      name: consul-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul
+  labels:
+    app: consul
+spec:
+  ports:
+  - port: 8500
+    name: http
+  - port: 8600
+    name: dns
+    protocol: UDP
+  - port: 8301
+    name: serflan
+  - port: 8301
+    name: serflan-tcp
+    protocol: TCP
+  - port: 8302
+    name: serfwan
+  - port: 8302
+    name: serfwan-tcp
+    protocol: TCP
+  - port: 8300
+    name: server
+  clusterIP: None
+  selector:
+    app: consul
