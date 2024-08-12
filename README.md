@@ -11,7 +11,7 @@ In this topology, we have one datacenter, DC1, which contains:
 
 This configuration serves as the baseline for our testing. Future tests will involve introducing network policies to enforce segmentation and evaluating how network isolation affects communication between services.
 
-![Standard Topology Diagram](./docs/standard1.png)
+![Standard Topology Diagram](./docs/standard.png)
 
 ### Running the Standard Topology
 
