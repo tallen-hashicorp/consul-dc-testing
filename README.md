@@ -4,12 +4,9 @@ This repository is dedicated to testing various datacenter (DC) topographies usi
 
 ## OSS Standard Topography
 
-In this topography, we have four datacenters:
+In this topography, we have 1 datacenter, DC1, this containes 5x Consul servers plus 5x serverses running couinting service with a consul client. 
 
-- **DC1, DC2, DC3:** Each of these datacenters contains active Consul servers.
-- **DC4:** This is an additional datacenter with no servers, used for further testing scenarios.
-
-All datacenters are fully networked, meaning they can freely communicate with each other. This configuration serves as the baseline for our testing. Future tests will involve introducing network policies to enforce segmentation and test how network isolation affects communication between services.
+This configuration serves as the baseline for our testing. Future tests will involve introducing network policies to enforce segmentation and test how network isolation affects communication between services.
 
 ![Standard Diagram](./docs/standard.png)
 
@@ -45,3 +42,4 @@ kubectl delete -f 1-Standard
 ## Further Reading
 * [Consul Architecture](https://developer.hashicorp.com/consul/docs/architecture)
 * [Bootstrap a Datacenter](https://developer.hashicorp.com/consul/docs/install/bootstrapping)
+* [Federate multiple datacenters with WAN gossip](https://developer.hashicorp.com/consul/tutorials/archive/federation-gossip-wan)
