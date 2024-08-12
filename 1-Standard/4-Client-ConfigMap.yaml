@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul-client-config-dc1
+  labels:
+    app: consul-client
+data:
+  consul.hcl: |
+    data_dir = "/consul/data"
+    client_addr = "0.0.0.0"
+    retry_join = ["consul-0.consul", "consul-1.consul", "consul-2.consul", "consul-3.consul", "consul-4.consul"]
+
+    service {
+      name = "hashicorp/counting-service"
+      port = 9001
+      check {
+        http = "http://localhost:9001/health"
+        interval = "10s"
+        timeout = "1s"
+      }
+    }
