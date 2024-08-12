@@ -40,3 +40,8 @@ kubectl -n consul-dc1 scale deployment consul-client --replicas 3
 ```bash
 kubectl delete -f 1-Standard
 ```
+
+---
+## Further Reading
+* [Consul Architecture](https://developer.hashicorp.com/consul/docs/architecture)
+* [Bootstrap a Datacenter](https://developer.hashicorp.com/consul/docs/install/bootstrapping)
