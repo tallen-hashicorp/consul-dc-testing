@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: consul
-        image: consul:1.15.4
+        image: hashicorp/consul:1.19.1
         command: ["consul", "agent", "-config-file=/consul/config/consul.hcl"]
         ports:
         - containerPort: 8500
@@ -43,7 +43,7 @@ spec:
         emptyDir: {}
       - name: consul-config
         configMap:
-          name: consul-config-dc1
+          name: consul-server-config-dc1
 ---
 apiVersion: v1
 kind: Service

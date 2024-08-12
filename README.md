@@ -15,12 +15,15 @@ All datacenters are fully networked, meaning they can freely communicate with ea
 
 ### To run
 ```bash
-kubectl apply -f 1-Standard/1-Namespace.yaml
-kubectl apply -f 1-Standard/2-ConfigMap.yaml
-kubectl apply -f 1-Standard/3-StatefulSet.yaml
+kubectl apply -f 1-Standard
 ```
 
 ### To Access
 ```bash
 kubectl -n consul-dc1 port-forward services/consul 8500:8500
+```
+
+## To Cleanup
+```bash
+kubectl delete -f 1-Standard
 ```
