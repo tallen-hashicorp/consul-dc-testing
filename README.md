@@ -17,7 +17,7 @@ After running this you can access Grafana on [http://127.0.0.1:3000](http://127.
 kubectl -n consul-monitoring port-forward services/grafana-service 3000:80
 ```
 
-Or if you want to access prometheus you can run the following and access on [http://127.0.0.1:9090](http://127.0.0.1:9090)
+Or if you want to access Prometheus you can run the following and access on [http://127.0.0.1:9090](http://127.0.0.1:9090)
 ```bash
 kubectl -n consul-monitoring port-forward services/prometheus-service 9090:80
 ```

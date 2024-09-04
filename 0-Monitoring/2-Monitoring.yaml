@@ -150,6 +150,11 @@ data:
       access: proxy
       url: http://prometheus-service.consul-monitoring.svc.cluster.local:80
       isDefault: true
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki-service.consul-monitoring.svc.cluster.local:80
+      isDefault: false
 ---
 apiVersion: apps/v1
 kind: Deployment
