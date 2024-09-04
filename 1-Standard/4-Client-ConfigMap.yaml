@@ -20,3 +20,8 @@ data:
         timeout = "1s"
       }
     }
+
+    telemetry {
+      prometheus_retention_time = "480h"
+      disable_hostname = true
+    }

@@ -2,6 +2,37 @@
 
 This repository is dedicated to testing various datacenter (DC) topologies using Consul. The goal is to explore different network configurations and their impact on service communication across multiple datacenters.
 
+## Monitoring
+
+### To Run
+To enable monitoring run the following command:
+
+```bash
+kubectl apply -f 0-Monitoring
+```
+
+### Access Monitoring
+After running this you can access Grafana on [http://127.0.0.1:3000](http://127.0.0.1:3000)
+```bash
+kubectl -n consul-monitoring port-forward services/grafana-service 3000:80
+```
+
+Or if you want to access prometheus you can run the following and access on [http://127.0.0.1:9090](http://127.0.0.1:9090)
+```bash
+kubectl -n consul-monitoring port-forward services/prometheus-service 9090:80
+```
+
+### Recommended Grafana Dashboards
+
+| **Title**                     | **ID**  | **Recommended** |
+|-------------------------------|---------|-----------------|
+| Consul Exporter Dashboard     | 12049   | No              |
+| Consul Server Monitoring      | 13396   | Yes             |
+| Consul Monitoring             | 10642   | Yes             |
+| Consul                        | 2351    | No              |
+
+---
+
 ## Standard Topology
 
 In this topology, we have one datacenter, DC1, which contains:
@@ -47,11 +78,14 @@ kubectl -n consul-dc1 scale deployment consul-client --replicas 10
 kubectl -n consul-dc1 scale deployment consul-client --replicas 3
 ```
 
-### Cleaning Up
+---
+
+## Cleaning Up
 
 To remove the deployed resources:
 
 ```bash
+kubectl delete -f 0-Monitoring
 kubectl delete -f 1-Standard
 ```
 
