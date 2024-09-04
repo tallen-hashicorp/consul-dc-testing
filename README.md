@@ -2,22 +2,44 @@
 
 This repository is dedicated to testing various datacenter (DC) topologies using Consul. The goal is to explore different network configurations and their impact on service communication across multiple datacenters.
 
+Sure, here's a cleaned-up and slightly enhanced version of your monitoring setup documentation:
+
+---
+
 ## Monitoring
 
-### To Run
-To enable monitoring run the following command:
+### Components
+
+- **Loki**: For logging
+- **Prometheus**: For metrics collection
+- **Grafana**: For visualization of logs and metrics
+
+### Setup
+
+To enable monitoring, apply the Kubernetes configuration with the following command:
 
 ```bash
 kubectl apply -f 0-Monitoring
 ```
 
-### Access Monitoring
-After running this you can access Grafana on [http://127.0.0.1:3000](http://127.0.0.1:3000)
+### Accessing Monitoring Tools
+
+Once the monitoring components are deployed, you can access them as follows:
+
+#### Grafana
+
+Grafana is accessible on [http://127.0.0.1:3000](http://127.0.0.1:3000). To forward the Grafana service port, use:
+
 ```bash
 kubectl -n consul-monitoring port-forward services/grafana-service 3000:80
 ```
 
-Or if you want to access prometheus you can run the following and access on [http://127.0.0.1:9090](http://127.0.0.1:9090)
+**Note**: Grafana is set up with data sources but does not have dashboards configured by default. You will need to create or import dashboards as needed.
+
+#### Prometheus
+
+Prometheus can be accessed at [http://127.0.0.1:9090](http://127.0.0.1:9090). To forward the Prometheus service port, use:
+
 ```bash
 kubectl -n consul-monitoring port-forward services/prometheus-service 9090:80
 ```

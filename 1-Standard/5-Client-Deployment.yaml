@@ -34,6 +34,8 @@ spec:
         volumeMounts:
         - name: consul-data
           mountPath: /consul/data
+        - name: consul-logs
+          mountPath: /var/log
         - name: consul-config
           mountPath: /consul/config
       - name: counting-service
@@ -53,12 +55,27 @@ spec:
             port: 9001
           initialDelaySeconds: 5
           periodSeconds: 10
+      - name: promtail
+        image: grafana/promtail
+        args:
+          - "-config.file=/etc/promtail/promtail.yaml"
+          - "-config.expand-env=true"
+        volumeMounts:
+        - name: promtail-config
+          mountPath: /etc/promtail/
+        - name: consul-logs
+          mountPath: /var/log/
       volumes:
       - name: consul-data
+        emptyDir: {}
+      - name: consul-logs
         emptyDir: {}
       - name: consul-config
         configMap:
           name: consul-client-config-dc1
+      - name: promtail-config
+        configMap:
+          name: promtail-consul-client-config
 ---
 apiVersion: v1
 kind: Service
