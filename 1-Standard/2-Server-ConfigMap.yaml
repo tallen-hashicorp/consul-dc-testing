@@ -34,10 +34,13 @@ data:
   promtail.yaml: |
     server:
       http_listen_port: 9080
+
     positions:
       filename: /var/log/positions.yaml
+
     clients:
       - url: http://loki-service.consul-monitoring.svc.cluster.local:80/loki/api/v1/push
+
     scrape_configs:
       - job_name: 'consul-logs'
         static_configs:
@@ -47,3 +50,9 @@ data:
               job: consul
               __path__: /var/log/consul.log
               hostname: ${HOSTNAME}
+        pipeline_stages:
+          - regex:                 # For regex-based parsing
+              expression: '^(?P<timestamp>[^\s]+)\s\[(?P<level>[^\]]+)\]\s(?P<component>[^:]+):\s(?P<message>.+)$'
+          - labels:                # Apply extracted fields as labels
+              level:
+              component:
