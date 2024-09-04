@@ -35,15 +35,32 @@ spec:
         volumeMounts:
         - name: consul-data
           mountPath: /consul/data
+        - name: consul-logs
+          mountPath: /var/log
         - name: consul-config
           mountPath: /consul/config
+      - name: promtail
+        image: grafana/promtail
+        args:
+          - "-config.file=/etc/promtail/promtail.yaml"
+          - "-config.expand-env=true"
+        volumeMounts:
+        - name: promtail-config
+          mountPath: /etc/promtail/
+        - name: consul-logs
+          mountPath: /var/log/
       terminationGracePeriodSeconds: 10
       volumes:
       - name: consul-data
         emptyDir: {}
+      - name: consul-logs
+        emptyDir: {}
       - name: consul-config
         configMap:
           name: consul-server-config-dc1
+      - name: promtail-config
+        configMap:
+          name: promtail-consul-config
 ---
 apiVersion: v1
 kind: Service
