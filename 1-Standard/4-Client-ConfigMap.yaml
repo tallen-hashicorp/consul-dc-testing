@@ -16,6 +16,7 @@ data:
     service {
       name = "hashicorp/counting-service"
       port = 9001
+      tags = ["counting-service"]
       check {
         http = "http://localhost:9001/health"
         interval = "10s"
